@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { todoContext } from "../_app";
+import { todoContext } from "../pages/_app";
 
 export const TodoFrom = () => {
   const [todoText, setTodoText] = useState("");
