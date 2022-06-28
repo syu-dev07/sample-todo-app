@@ -1,19 +1,18 @@
 import React, { useContext } from "react";
-import { todoContext } from "../pages/_app";
+import { todoContext } from "../../pages/_app";
 import { Todo } from "./Todo";
-import styles from "./TodoList.module.css";
 
 export const TodoList = () => {
   const { todos } = useContext(todoContext);
   console.log(todos);
   return (
-    <div className={styles.container}>
-      <div className={styles.board}>
+    <div>
+      <div>
         <h1>未完了</h1>
-        <ul>
+        <ul className="p-0">
           {todos
             .filter((todo) => {
-              if (!todo.isDone) {
+              if (todo.progress === "pending") {
                 return todo;
               }
             })
@@ -22,12 +21,26 @@ export const TodoList = () => {
             })}
         </ul>
       </div>
-      <div className={styles.board}>
-        <h1>完了</h1>
-        <ul>
+      <div>
+        <h1>対応中</h1>
+        <ul className="p-0">
           {todos
             .filter((todo) => {
-              if (todo.isDone) {
+              if (todo.progress === "processing") {
+                return todo;
+              }
+            })
+            .map((todo) => {
+              return <Todo key={todo.id} todo={todo} />;
+            })}
+        </ul>
+      </div>
+      <div>
+        <h1>完了</h1>
+        <ul className="p-0">
+          {todos
+            .filter((todo) => {
+              if (todo.progress === "complete") {
                 return todo;
               }
             })

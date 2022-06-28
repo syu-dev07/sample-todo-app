@@ -1,30 +1,31 @@
+import { Button, Container, TextInput } from "@mantine/core";
 import React, { useContext, useState } from "react";
-import { todoContext } from "../pages/_app";
+import { todoContext } from "../../pages/_app";
 
-export const TodoFrom = () => {
+export const TodoForm = () => {
   const [todoText, setTodoText] = useState("");
   const { setTodos } = useContext(todoContext);
   return (
-    <div>
-      <input
-        type="text"
+    <Container style={{ marginTop: "10px", display: "flex" }} className="p-0">
+      <TextInput
+        style={{ marginRight: "5px" }}
         value={todoText}
         onChange={(e) => {
           setTodoText(e.target.value);
         }}
       />
-      <button
+      <Button
         onClick={() => {
           setTodos((prevTodos) => {
             return [
               ...prevTodos,
-              { id: prevTodos.length + 1, text: todoText, isDone: false },
+              { id: prevTodos.length + 1, text: todoText, progress: "pending" },
             ];
           });
         }}
       >
         追加
-      </button>
-    </div>
+      </Button>
+    </Container>
   );
 };
