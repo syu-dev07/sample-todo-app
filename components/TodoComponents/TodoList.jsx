@@ -1,54 +1,32 @@
 import React, { useContext } from "react";
+import { DndProvider, useDrop } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { todoContext } from "../../pages/_app";
-import { Todo } from "./Todo";
+import { TodoColumn } from "./TodoColumn";
+
+const todoProps = [
+  { title: "未完了", status: "pending" },
+  { title: "対応中", status: "processing" },
+  { title: "完了", status: "complete" },
+];
 
 export const TodoList = () => {
   const { todos } = useContext(todoContext);
-  console.log(todos);
+  console.log(todos, todoProps);
   return (
     <div>
-      <div>
-        <h1>未完了</h1>
-        <ul className="p-0">
-          {todos
-            .filter((todo) => {
-              if (todo.progress === "pending") {
-                return todo;
-              }
-            })
-            .map((todo) => {
-              return <Todo key={todo.id} todo={todo} />;
-            })}
-        </ul>
-      </div>
-      <div>
-        <h1>対応中</h1>
-        <ul className="p-0">
-          {todos
-            .filter((todo) => {
-              if (todo.progress === "processing") {
-                return todo;
-              }
-            })
-            .map((todo) => {
-              return <Todo key={todo.id} todo={todo} />;
-            })}
-        </ul>
-      </div>
-      <div>
-        <h1>完了</h1>
-        <ul className="p-0">
-          {todos
-            .filter((todo) => {
-              if (todo.progress === "complete") {
-                return todo;
-              }
-            })
-            .map((todo) => {
-              return <Todo key={todo.id} todo={todo} />;
-            })}
-        </ul>
-      </div>
+      <DndProvider backend={HTML5Backend}>
+        {todoProps.map((tp, index) => {
+          return (
+            <TodoColumn
+              key={index}
+              status={tp.status}
+              title={tp.title}
+              todos={todos}
+            />
+          );
+        })}
+      </DndProvider>
     </div>
   );
 };
